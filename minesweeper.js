@@ -25,9 +25,19 @@ var board = {
             
          }
          console.log(_grid);
+         
          // the convert to 2d array
-         
-         
+         var newRow = [];
+         for (var i=0; i<_grid.length; i++) {
+            //console.log(i + ": "+_grid[i]);
+            newRow.push(_grid[i]);
+            if ((i+1) % this.dimensions.columns === 0 && i !== 0) {
+               this.grid.push(newRow);
+               newRow = [];
+            }
+            
+         }
+         console.log(this.grid);
          
          // then, calculate each cell's bombsTouch
          
