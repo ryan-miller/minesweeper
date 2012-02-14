@@ -8,23 +8,9 @@ var board = {
       initialize: function() {
          var totalcells = this.dimensions.columns*this.dimensions.rows;
          // initialize the array with "0" in all indexes
-         var _grid = (new Array(totalcells).toString().replace(/,/g, "0,") + "0").split(",")
+         var _grid = (new Array(totalcells).toString().replace(/,/g, "0,") + 0).split(",")
          
          var bombCount = 0;
-
-         var NWBomb = function(r,c, g) {
-            //console.log("f:" + g);
-         
-            if (r == 0 || c == 0) {
-               return 0;
-            } else {
-               if (g[r-1][c-1] === "b") {
-                  return 1;
-               }
-               else return 0;
-            }
-            
-         };
          
          // bombs should only be created after revealing first cell
          // to ensure that every game has at least one safe move
@@ -38,6 +24,8 @@ var board = {
             }
             
          }
+         // use for testing
+         //_grid = ["0", "0", "b", "0", "b", "b", "0", "0", "b", "0", "0", "b", "0", "0", "0", "0", "0", "0", "0", "0"];
          console.log(_grid);
          
          // the convert to 2d array
@@ -56,26 +44,92 @@ var board = {
          // then, calculate each cell's bombsTouch
          var bombCount = 0;  
          for (var i=0; i<this.grid.length; i++){
-            
+            console.log("**** starting row " + i + " ****")
             for (var j=0; j<this.grid[i].length; j++) {
-                            
+               console.log("** starting column " + j + " ** (value: " + this.grid[i][j]+")");
                // check northwest
-               bombCount += NWBomb(i,j, this.grid);
-               /*bombCount += NBomb(i,j);
-               bombCount += NEBomb(i,j);
-               bombCount += WBomb(i,j);
-               bombCount += EBomb(i,j);
-               bombCount += SWBomb(i,j);
-               bombCount += WBomb(i,j);
-               bombCount += WEBomb(i,j);*/
+               if (i==0 || j==0) {
+                  console.log("NW not present");
+               } else {
+                  console.log("NW value is: " + this.grid[i-1][j-1]);
+                  if (this.grid[i-1][j-1] === "b" &&  this.grid[i][j] !== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j]) + 1;
+                  }
+               }
                
-               console.log(bombCount);
-
-               //console.log("cell: "+i+" touches " + bombCount + " bombs");
+               // check north
+               if (i==0) {
+                  console.log("N not present");
+               } else {
+                  console.log("N value is: " + this.grid[i-1][j]);
+                  if (this.grid[i-1][j] === "b" && this.grid[i][j]!== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j]) + 1;
+                  }
+               }
                
+               // check northeast
+               if (i==0 || j==this.dimensions.columns-1) {
+                  console.log("NE not present");
+               } else {
+                  console.log("NE value is: " + this.grid[i-1][j+1]);
+                  if (this.grid[i-1][j+1] === "b" &&  this.grid[i][j] !== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j]) + 1;
+                  }
+               }
+               
+               // check west
+               if (j==0) {
+                  console.log("W not present");
+               } else {
+                  console.log("W value is: " + this.grid[i][j-1]);
+                  if (this.grid[i][j-1] === "b" &&  this.grid[i][j] !== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j])+1;
+                  }
+               }
+               
+               // check east
+               if (j==this.dimensions.columns-1) {
+                  console.log("E not present");
+               } else {
+                  console.log("E value is: " + this.grid[i][j+1]);
+                  if (this.grid[i][j+1] === "b" &&  this.grid[i][j] !== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j])+1;
+                  }
+               }
+               
+               // check southwest
+               if (i==this.dimensions.rows-1 || j==0) {
+                  console.log("SW not present");
+               } else {
+                  console.log("SW value is: " + this.grid[i+1][j-1]);
+                  if (this.grid[i+1][j-1] === "b" &&  this.grid[i][j] !== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j]) + 1;
+                  }
+               }
+               
+               // check south
+               if (i==this.dimensions.rows-1) {
+                  console.log("S not present");
+               } else {
+                  console.log("S value is: " + this.grid[i+1][j]);
+                  if (this.grid[i+1][j] === "b" && this.grid[i][j]!== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j]) + 1;
+                  }
+               }
+               // check southeast
+               if (i==this.dimensions.rows-1 || j==this.dimensions.columns-1) {
+                  console.log("SE not present");
+               } else {
+                  console.log("SE value is: " + this.grid[i+1][j+1]);
+                  if (this.grid[i+1][j+1] === "b" &&  this.grid[i][j] !== "b") {
+                     this.grid[i][j] = parseInt(this.grid[i][j]) + 1;
+                  }
+               }
                
             }
+            
          }
+         console.log(this.grid);
          return this;
          
       },
