@@ -12,6 +12,20 @@ var board = {
          
          var bombCount = 0;
 
+         var NWBomb = function(r,c, g) {
+            //console.log("f:" + g);
+         
+            if (r == 0 || c == 0) {
+               return 0;
+            } else {
+               if (g[r-1][c-1] === "b") {
+                  return 1;
+               }
+               else return 0;
+            }
+            
+         };
+         
          // bombs should only be created after revealing first cell
          // to ensure that every game has at least one safe move
          while (bombCount < this.bombs && this.bombs < totalcells) {
@@ -40,7 +54,28 @@ var board = {
          console.log(this.grid);
          
          // then, calculate each cell's bombsTouch
-         
+         var bombCount = 0;  
+         for (var i=0; i<this.grid.length; i++){
+            
+            for (var j=0; j<this.grid[i].length; j++) {
+                            
+               // check northwest
+               bombCount += NWBomb(i,j, this.grid);
+               /*bombCount += NBomb(i,j);
+               bombCount += NEBomb(i,j);
+               bombCount += WBomb(i,j);
+               bombCount += EBomb(i,j);
+               bombCount += SWBomb(i,j);
+               bombCount += WBomb(i,j);
+               bombCount += WEBomb(i,j);*/
+               
+               console.log(bombCount);
+
+               //console.log("cell: "+i+" touches " + bombCount + " bombs");
+               
+               
+            }
+         }
          return this;
          
       },
