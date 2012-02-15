@@ -1,10 +1,10 @@
 var board = {
       grid : [],
       dimensions : {
-         rows: 5,
+         rows: 40,
          columns: 4
       },
-      bombs: 5,
+      bombs: 70,
       initialize: function() {
          var totalcells = this.dimensions.columns*this.dimensions.rows;
          // initialize the array with "0" in all indexes
